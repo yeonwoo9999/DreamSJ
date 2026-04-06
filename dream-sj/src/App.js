@@ -2,13 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import './App.css';
 
-// ⚠️ 여기에 본인의 Supabase URL과 Anon Key를 넣으세요!
 const supabase = createClient('https://evahmezvdpxcyfhjpmos.supabase.co', 'sb_publishable_vRz20iAfejG5fLHyjY4mMg_aGnT8aTU');
 
 function App() {
   const [prayers, setPrayers] = useState([]);
 
-  // 사이트 접속 시 데이터를 자동으로 불러옵니다.
   useEffect(() => {
     fetchPrayers();
   }, []);
@@ -23,71 +21,60 @@ function App() {
     else if (data) setPrayers(data);
   }
 
-  // 1. 새로운 기도제목 등록하기
   const handleAdd = async () => {
     const name = prompt('이름을 입력하세요:');
     if (!name) return;
-    const text = prompt('기도제목을 입력하세요:');
-    if (!text) return;
-    const password = prompt('수정 시 사용할 비밀번호를 설정하세요:');
+    const password = prompt('비밀번호를 설정하세요:');
     if (!password) return;
 
-    const { error } = await supabase
-      .from('prayers')
-      .insert([{ name, text, password }]);
+    const count = parseInt(prompt('기도제목을 몇 개 작성하실 건가요? (1~10)', '1'));
+    if (isNaN(count) || count < 1 || count > 10) {
+      alert('1에서 10 사이의 숫자만 입력해주세요.');
+      return;
+    }
+
+    let prayerData = { name, password };
+    for (let i = 1; i <= count; i++) {
+      const t = prompt(`${i}번 기도제목을 입력하세요:`);
+      if (t) prayerData[`text${i}`] = t; // text1, text2... 형식으로 저장
+    }
+
+    const { error } = await supabase.from('prayers').insert([prayerData]);
 
     if (!error) {
-      fetchPrayers(); // 등록 후 리스트 새로고침
-      alert('기도제목이 등록되었습니다! 🙏');
+      fetchPrayers();
+      alert('등록되었습니다! 🙏');
     } else {
       alert('등록 실패: ' + error.message);
-    }
-  };
-
-  // 2. 기존 기도제목 수정하기
-  const handleEdit = async (id) => {
-    const person = prayers.find(p => p.id === id);
-    const inputPw = prompt(`${person.name}님, 비밀번호를 입력하세요:`);
-
-    if (inputPw === person.password) {
-      const newText = prompt('새로운 기도제목을 입력하세요:', person.text);
-      if (newText) {
-        const { error } = await supabase
-          .from('prayers')
-          .update({ text: newText })
-          .eq('id', id);
-
-        if (!error) {
-          fetchPrayers(); // 수정 후 리스트 새로고침
-          alert('수정 완료!');
-        }
-      }
-    } else {
-      alert('비밀번호가 틀렸습니다!');
     }
   };
 
   return (
     <div className="App">
       <header className="App-header">
-        <h1>🙏 기도제목</h1>
-        
-        <button className="add-main-btn" onClick={handleAdd}>
-          + 내 기도제목 올리기
-        </button>
+        <h1>🙏 주간 기도제목</h1>
+        <button className="add-main-btn" onClick={handleAdd}>+ 내 기도제목 올리기</button>
 
         <div className="prayer-list">
           {prayers.length === 0 ? (
-            <p className="empty-msg">아직 등록된 기도가 없습니다. 첫 기도를 올려보세요!</p>
+            <p className="empty-msg">등록된 기도가 없습니다.</p>
           ) : (
-            prayers.map((p, index) => (
-              <div key={p.id} className="prayer-row" onClick={() => handleEdit(p.id)}>
-                <div className="row-number">{index + 1}</div>
-                <div className="row-content">
-                  <span className="row-name">{p.name}</span>
-                  <span className="row-text">{p.text}</span>
+            prayers.map((p) => (
+              <div key={p.id} className="prayer-card">
+                <div className="card-header">
+                  <span className="user-name">👤 {p.name}님의 기도</span>
                 </div>
-                <div className="row-edit-icon">✏️</div>
+                <div className="card-content">
+                  {/* 1번부터 10번까지 데이터가 있는 것만 출력 */}
+                  {[...Array(10)].map((_, i) => {
+                    const textVal = p[`text${i + 1}`];
+                    return textVal ? (
+                      <div key={i} className="prayer-item">
+                        <span className="item-num">{i + 1}.</span> {textVal}
+                      </div>
+                    ) : null;
+                  })}
+                </div>
               </div>
             ))
           )}

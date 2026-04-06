@@ -1,31 +1,77 @@
 .App-header {
-  background-color: #f0f2f5;
+  background-color: #f0f4f8;
   min-height: 100vh;
-  padding: 20px;
-  color: #333;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.prayer-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
-  width: 100%;
-  max-width: 1000px;
-}
-
-.prayer-card {
-  background: white;
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+.add-main-btn {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   transition: transform 0.2s;
-  text-align: center;
 }
 
-.prayer-card:hover {
-  transform: scale(1.05);
-  background-color: #e3f2fd;
+.add-main-btn:hover {
+  transform: translateY(-2px);
+  background-color: #357abd;
 }
 
-h1 { margin-bottom: 40px; }
+.prayer-list {
+  width: 100%;
+  max-width: 500px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.prayer-row {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #edf2f7;
+  cursor: pointer;
+}
+
+.prayer-row:last-child { border-bottom: none; }
+
+.prayer-row:hover { background-color: #f8faff; }
+
+.row-number {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #cbd5e0;
+  margin-right: 20px;
+}
+
+.row-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.row-name {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #2d3748;
+}
+
+.row-text {
+  color: #718096;
+  margin-top: 4px;
+  font-size: 0.95rem;
+}
+
+.row-edit-icon { font-size: 0.8rem; color: #a0aec0; }
+
+.empty-msg { padding: 40px; color: #a0aec0; }

@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import './App.css';
 
 // ⚠️ 여기에 본인의 Supabase URL과 Anon Key를 넣으세요!
-const supabase = createClient('https://your-project.supabase.co', 'your-anon-key-here');
+const supabase = createClient('https://evahmezvdpxcyfhjpmos.supabase.co', 'sb_publishable_vRz20iAfejG5fLHyjY4mMg_aGnT8aTU');
 
 function App() {
   const [prayers, setPrayers] = useState([]);
@@ -70,7 +70,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>🙏 실시간 기도제목 판</h1>
+        <h1>🙏 기도제목</h1>
         
         <button className="add-main-btn" onClick={handleAdd}>
           + 내 기도제목 올리기

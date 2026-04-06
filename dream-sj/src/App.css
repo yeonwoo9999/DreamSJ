@@ -75,3 +75,28 @@
 .row-edit-icon { font-size: 0.8rem; color: #a0aec0; }
 
 .empty-msg { padding: 40px; color: #a0aec0; }
+
+/* 모달 배경 */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000;
+}
+
+/* 모달 박스 */
+.modal-content {
+  background: white; padding: 25px; border-radius: 15px; width: 90%; max-width: 400px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+
+.input-row { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
+.input-row input { flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 5px; }
+
+.add-line-btn { background: #eee; border: none; padding: 8px; cursor: pointer; border-radius: 5px; }
+.modal-btns { display: flex; gap: 10px; margin-top: 15px; }
+.save-btn { flex: 1; background: #4a90e2; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; }
+.cancel-btn { flex: 1; background: #ccc; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; }
+
+/* 카드 스타일링 */
+.prayer-card { background: white; border-radius: 12px; margin-bottom: 20px; padding: 20px; width: 100%; max-width: 500px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: left; }
+.card-header { font-weight: bold; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px; color: #4a90e2; }
+.item { margin-bottom: 5px; color: #333; }

@@ -141,7 +141,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>🙏 주간 기도제목</h1>
+        <h1>🙏 세종 꿈의 교회 111 목장 주간 기도제목 🙏</h1>
         <button className="add-main-btn" onClick={() => setShowModal(true)}>+ 기도제목 작성하기</button>
 
         {showModal && (

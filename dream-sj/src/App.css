@@ -78,7 +78,7 @@
 
 .card-header {
   display: flex;
-  justify-content: space-between; /* 이름은 왼쪽, 버튼 그룹은 오른쪽 끝으로 */
+  justify-content: space-between; /* 이름은 왼쪽 끝, 버튼 뭉치는 오른쪽 끝! */
   align-items: center;
   font-weight: bold;
   border-bottom: 1px solid #eee;
@@ -89,28 +89,25 @@
 
 .card-actions {
   display: flex;
-  gap: 8px; /* 버튼 사이의 간격 */
+  gap: 8px; /* 수정과 삭제 버튼 사이의 간격 */
+  align-items: center;
 }
 
 .action-btn {
   font-size: 0.75rem;
-  padding: 2px 6px;
-  border-radius: 4px;
+  padding: 4px 8px; /* 상하좌우 여백을 조금 더 줘서 클릭하기 좋게 */
+  border-radius: 6px;
   cursor: pointer;
+  background-color: transparent;
+  transition: all 0.2s;
 }
 
-.edit-btn {
-  color: #888;
-}
-.edit-btn:hover {
-  background: #f5f5f5;
-}
-.delete-btn {
-  color: #ff6b6b;
-}
-.delete-btn:hover {
-  background: #fff5f5;
-}
+.edit-btn { color: #888; border: 1px solid #eee; } /* 테두리를 살짝 주면 더 버튼 같아요 */
+.edit-btn:hover { background: #f5f5f5; border-color: #ddd; }
+
+.delete-btn { color: #ff6b6b; border: 1px solid #fff5f5; }
+.delete-btn:hover { background: #fff5f5; border-color: #ffc9c9; }
+
 .prayer-card {
   cursor: pointer;
   transition: transform 0.2s;

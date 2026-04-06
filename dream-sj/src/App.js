@@ -156,8 +156,10 @@ function App() {
             <div key={p.id} className="prayer-card" onClick={() => handleEditClick(p)} style={{cursor: 'pointer'}}>
               <div className="card-header">
                 👤 {p.name}님의 기도 
-                <span className="action-btn edit-btn">✏️ 수정</span>
-                <span className="action-btn delete-btn" onClick={(e) => handleDelete(e, p)}>🗑️ 삭제</span>
+                <div className="card-actions">
+                  <span className="action-btn edit-btn">✏️ 수정</span>
+                  <span className="action-btn delete-btn" onClick={(e) => handleDelete(e, p)}>🗑️ 삭제</span>
+                </div>
               </div>
               <div className="card-content">
                 {[...Array(10)].map((_, i) => {

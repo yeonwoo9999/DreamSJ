@@ -32,6 +32,28 @@ function App() {
     setInputs(['']);
   };
 
+  // 복사 기능 추가
+  const handleCopy = (e, p) => {
+    e.stopPropagation(); // 카드 클릭(수정) 방지
+    
+    // 1번부터 10번까지 있는 내용만 모아서 문자열로 만들기
+    let copyText = `[${p.name}님의 기도제목]\n`;
+    let count = 1;
+    for (let i = 1; i <= 10; i++) {
+      if (p[`text${i}`]) {
+        copyText += `${count}. ${p[`text${i}`]}\n`;
+        count++;
+      }
+    }
+
+    // 클립보드에 복사하기
+    navigator.clipboard.writeText(copyText).then(() => {
+      alert(`${p.name}님의 기도제목이 복사되었습니다! 말씀카드에 붙여넣으세요. ✨`);
+    }).catch(err => {
+      alert('복사 실패: ' + err);
+    });
+  };
+
   // 삭제 기능 추가
   const handleDelete = async (e, p) => {
     e.stopPropagation(); // 카드 클릭 이벤트(수정)가 겹치지 않게 방지
@@ -157,6 +179,7 @@ function App() {
               <div className="card-header">
                 👤 {p.name}님의 기도 
                 <div className="card-actions">
+                  <span className="action-btn copy-btn" onClick={(e) => handleCopy(e, p)}>📋 복사</span>
                   <span className="action-btn edit-btn">✏️ 수정</span>
                   <span className="action-btn delete-btn" onClick={(e) => handleDelete(e, p)}>🗑️ 삭제</span>
                 </div>

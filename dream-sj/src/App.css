@@ -102,7 +102,17 @@
   transition: all 0.2s;
 }
 
-.edit-btn { color: #888; border: 1px solid #eee; } /* 테두리를 살짝 주면 더 버튼 같아요 */
+.copy-btn {
+  color: #4a90e2; /* 브랜드 컬러와 맞춤 */
+  border: 1px solid #ebf4ff;
+}
+
+.copy-btn:hover {
+  background: #ebf4ff;
+  border-color: #c3dafe;
+}
+
+.edit-btn { color: #888; border: 1px solid #eee; }
 .edit-btn:hover { background: #f5f5f5; border-color: #ddd; }
 
 .delete-btn { color: #ff6b6b; border: 1px solid #fff5f5; }

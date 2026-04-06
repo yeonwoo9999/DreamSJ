@@ -32,6 +32,26 @@ function App() {
     setInputs(['']);
   };
 
+  // 삭제 기능 추가
+  const handleDelete = async (e, p) => {
+    e.stopPropagation(); // 카드 클릭 이벤트(수정)가 겹치지 않게 방지
+    const inputPw = prompt(`삭제하시겠습니까? ${p.name}님의 비밀번호를 입력하세요:`);
+    
+    if (inputPw === p.password) {
+      if (window.confirm('정말로 이 기도제목을 삭제하시겠습니까?')) {
+        const { error } = await supabase.from('prayers').delete().eq('id', p.id);
+        if (!error) {
+          fetchPrayers();
+          alert('삭제되었습니다.');
+        } else {
+          alert('삭제 실패: ' + error.message);
+        }
+      }
+    } else if (inputPw !== null) {
+      alert('비밀번호가 틀렸습니다!');
+    }
+  };
+
   // 수정하기 클릭 시 (기존 카드 클릭)
   const handleEditClick = (p) => {
     const inputPw = prompt(`${p.name}님, 설정하신 비밀번호를 입력하세요:`);
@@ -137,6 +157,7 @@ function App() {
               <div className="card-header">
                 👤 {p.name}님의 기도 
                 <span style={{fontSize: '0.8rem', color: '#ccc', float: 'right'}}>✏️ 수정</span>
+                <span className="action-btn delete-btn" onClick={(e) => handleDelete(e, p)}>🗑️ 삭제</span>
               </div>
               <div className="card-content">
                 {[...Array(10)].map((_, i) => {

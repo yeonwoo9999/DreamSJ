@@ -156,7 +156,7 @@ function App() {
             <div key={p.id} className="prayer-card" onClick={() => handleEditClick(p)} style={{cursor: 'pointer'}}>
               <div className="card-header">
                 👤 {p.name}님의 기도 
-                <span style={{fontSize: '0.8rem', color: '#ccc', float: 'right'}}>✏️ 수정</span>
+                <span className="action-btn edit-btn">✏️ 수정</span>
                 <span className="action-btn delete-btn" onClick={(e) => handleDelete(e, p)}>🗑️ 삭제</span>
               </div>
               <div className="card-content">

@@ -77,19 +77,21 @@ function App() {
   // 수정하기 클릭 시 (기존 카드 클릭)
   const handleEditClick = (p) => {
     const inputPw = prompt(`${p.name}님, 설정하신 비밀번호를 입력하세요:`);
+    
+    if (inputPw === null) return; // 취소 누르면 아무것도 안함
+
     if (inputPw === p.password) {
-      setEditingId(p.id); // 수정 모드 활성화
+      setEditingId(p.id); 
       setName(p.name);
       setPassword(p.password);
       
-      // 기존 텍스트들(text1~text10) 중 데이터가 있는 것만 inputs에 담기
       let existingTexts = [];
       for (let i = 1; i <= 10; i++) {
         if (p[`text${i}`]) existingTexts.push(p[`text${i}`]);
       }
       setInputs(existingTexts.length > 0 ? existingTexts : ['']);
       setShowModal(true);
-    } else if (inputPw !== null) {
+    } else {
       alert('비밀번호가 틀렸습니다!');
     }
   };

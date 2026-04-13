@@ -186,8 +186,8 @@ function App() {
               <div className="card-header">
                 👤 {p.name}님의 기도 
                 <div className="card-actions">
+                  <span className="action-btn edit-btn" onClick={(e) => { e.stopPropagation(); handleEditClick(p); }}>✏️ 수정</span>
                   <span className="action-btn copy-btn" onClick={(e) => handleCopy(e, p)}>📋 복사</span>
-                  <span className="action-btn edit-btn">✏️ 수정</span>
                   <span className="action-btn delete-btn" onClick={(e) => handleDelete(e, p)}>🗑️ 삭제</span>
                 </div>
               </div>

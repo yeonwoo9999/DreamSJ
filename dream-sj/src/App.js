@@ -121,17 +121,17 @@ function App() {
     let error;
     if (editingId) {
         // 수정 모드 (Update)
-        const result = await supabase
+        const { error: updateError } = await supabase
         .from('prayers')
         .update(prayerData)
-        .eq('id', editingId);
-      error = result.error;
+        .eq('id', editingId); // "지금 수정 중인 그 번호(5번)만 바꿔!"라는 뜻
+      error = updateError;
     } else {
-      // 2. 새 글 모드: .insert() 사용
-      const result = await supabase
+      // 2. 새로 만들 때는 .insert()를 사용합니다.
+      const { error: insertError } = await supabase
         .from('prayers')
         .insert([prayerData]);
-      error = result.error;
+      error = insertError;
     }
 
     if (!error) {

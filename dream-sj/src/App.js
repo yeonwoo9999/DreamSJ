@@ -76,20 +76,25 @@ function App() {
 
   // 수정하기 클릭 시 (기존 카드 클릭)
   const handleEditClick = (p) => {
+    // 1. 먼저 사용자에게 비밀번호를 묻습니다.
     const inputPw = prompt(`${p.name}님, 설정하신 비밀번호를 입력하세요:`);
     
-    if (inputPw === null) return; // 취소 누르면 아무것도 안함
+    if (inputPw === null) return; // 취소 버튼 누르면 중단
 
     if (inputPw === p.password) {
+      // 2. 비밀번호가 맞으면 "수정 모드"임을 확실히 선언 (ID 저장)
       setEditingId(p.id); 
       setName(p.name);
       setPassword(p.password);
       
+      // 3. 기존 데이터 불러오기
       let existingTexts = [];
       for (let i = 1; i <= 10; i++) {
         if (p[`text${i}`]) existingTexts.push(p[`text${i}`]);
       }
       setInputs(existingTexts.length > 0 ? existingTexts : ['']);
+      
+      // 4. 모든 세팅이 끝난 후 모달 열기
       setShowModal(true);
     } else {
       alert('비밀번호가 틀렸습니다!');
@@ -186,8 +191,8 @@ function App() {
               <div className="card-header">
                 👤 {p.name}님의 기도 
                 <div className="card-actions">
-                  <span className="action-btn edit-btn" onClick={(e) => { e.stopPropagation(); handleEditClick(p); }}>✏️ 수정</span>
                   <span className="action-btn copy-btn" onClick={(e) => handleCopy(e, p)}>📋 복사</span>
+                  <span className="action-btn edit-btn" onClick={() => handleEditClick(p)}>✏️ 수정</span>
                   <span className="action-btn delete-btn" onClick={(e) => handleDelete(e, p)}>🗑️ 삭제</span>
                 </div>
               </div>

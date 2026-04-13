@@ -120,12 +120,17 @@ function App() {
 
     let error;
     if (editingId) {
-      // 수정 모드 (Update)
-      const result = await supabase.from('prayers').update(prayerData).eq('id', editingId);
+        // 수정 모드 (Update)
+        const result = await supabase
+        .from('prayers')
+        .update(prayerData)
+        .eq('id', editingId);
       error = result.error;
     } else {
-      // 새 글 모드 (Insert)
-      const result = await supabase.from('prayers').insert([prayerData]);
+      // 2. 새 글 모드: .insert() 사용
+      const result = await supabase
+        .from('prayers')
+        .insert([prayerData]);
       error = result.error;
     }
 

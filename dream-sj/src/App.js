@@ -75,26 +75,22 @@ function App() {
   };
 
   // 수정하기 클릭 시 (기존 카드 클릭)
-  const handleEditClick = (p) => {
-    // 1. 먼저 사용자에게 비밀번호를 묻습니다.
-    const inputPw = prompt(`${p.name}님, 설정하신 비밀번호를 입력하세요:`);
+  const handleEditClick = (e, p) => {
+    if (e) e.stopPropagation(); 
     
-    if (inputPw === null) return; // 취소 버튼 누르면 중단
+    const inputPw = prompt(`${p.name}님, 비밀번호를 입력하세요:`);
+    if (inputPw === null) return; 
 
     if (inputPw === p.password) {
-      // 2. 비밀번호가 맞으면 "수정 모드"임을 확실히 선언 (ID 저장)
       setEditingId(p.id); 
       setName(p.name);
       setPassword(p.password);
       
-      // 3. 기존 데이터 불러오기
       let existingTexts = [];
       for (let i = 1; i <= 10; i++) {
         if (p[`text${i}`]) existingTexts.push(p[`text${i}`]);
       }
       setInputs(existingTexts.length > 0 ? existingTexts : ['']);
-      
-      // 4. 모든 세팅이 끝난 후 모달 열기
       setShowModal(true);
     } else {
       alert('비밀번호가 틀렸습니다!');
@@ -127,18 +123,11 @@ function App() {
 
     let error;
     if (editingId) {
-        // 수정 모드 (Update)
-        const { error: updateError } = await supabase
-        .from('prayers')
-        .update(prayerData)
-        .eq('id', editingId); // "지금 수정 중인 그 번호(5번)만 바꿔!"라는 뜻
-      error = updateError;
+      const result = await supabase.from('prayers').update(prayerData).eq('id', editingId);
+      error = result.error;
     } else {
-      // 2. 새로 만들 때는 .insert()를 사용합니다.
-      const { error: insertError } = await supabase
-        .from('prayers')
-        .insert([prayerData]);
-      error = insertError;
+      const result = await supabase.from('prayers').insert([prayerData]);
+      error = result.error;
     }
 
     if (!error) {
@@ -192,7 +181,7 @@ function App() {
                 👤 {p.name}님의 기도 
                 <div className="card-actions">
                   <span className="action-btn copy-btn" onClick={(e) => handleCopy(e, p)}>📋 복사</span>
-                  <span className="action-btn edit-btn" onClick={() => handleEditClick(p)}>✏️ 수정</span>
+                  <span className="action-btn edit-btn" onClick={(e) => handleEditClick(e, p)}>✏️ 수정</span>
                   <span className="action-btn delete-btn" onClick={(e) => handleDelete(e, p)}>🗑️ 삭제</span>
                 </div>
               </div>

@@ -26,7 +26,7 @@ function App() {
   // 모달 닫기 및 초기화
   const closeModal = () => {
     setShowModal(false);
-    setEditingId(null);
+    setIsEditing(false); 
     setName('');
     setPassword('');
     setInputs(['']);
@@ -116,10 +116,7 @@ function App() {
 
     let error;
     if (isEditing) {
-    const result = await supabase
-      .from('prayers')
-      .update(prayerData)
-      .eq('name', name); 
+    const result = await supabase.from('prayers').update(prayerData).eq('name', name);
     error = result.error;
   } else {
     const result = await supabase.from('prayers').insert([prayerData]);
@@ -129,7 +126,7 @@ function App() {
     if (!error) {
       closeModal();
       fetchPrayers();
-      alert(editingId ? '수정되었습니다! ✨' : '등록되었습니다! 🙏');
+      alert(isEditing ? '수정되었습니다! ✨' : '등록되었습니다! 🙏');
     } else {
       alert('실패: ' + error.message);
     }
@@ -144,7 +141,7 @@ function App() {
         {showModal && (
           <div className="modal-overlay">
             <div className="modal-content">
-              <h2>{editingId ? '기도제목 수정하기' : '기도제목 올리기'}</h2>
+              <h2>{isEditing ? '기도제목 수정하기' : '기도제목 올리기'}</h2>
               <input type="text" placeholder="이름" value={name} onChange={(e) => setName(e.target.value)} />
               <input type="password" placeholder="비밀번호" value={password} onChange={(e) => setPassword(e.target.value)} />
               

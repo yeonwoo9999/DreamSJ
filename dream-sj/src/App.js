@@ -56,46 +56,39 @@ function App() {
 
   // 삭제 기능 추가
   const handleDelete = async (e, p) => {
-    e.stopPropagation(); // 카드 클릭 이벤트(수정)가 겹치지 않게 방지
-    const inputPw = prompt(`삭제하시겠습니까? ${p.name}님의 비밀번호를 입력하세요:`);
-    
-    if (inputPw === p.password) {
-      if (window.confirm('정말로 이 기도제목을 삭제하시겠습니까?')) {
-        const { error } = await supabase.from('prayers').delete().eq('id', p.id);
-        if (!error) {
-          fetchPrayers();
-          alert('삭제되었습니다.');
-        } else {
-          alert('삭제 실패: ' + error.message);
-        }
-      }
-    } else if (inputPw !== null) {
-      alert('비밀번호가 틀렸습니다!');
+    e.stopPropagation(); 
+  const inputPw = prompt(`삭제하시겠습니까? ${p.name}님의 비밀번호를 입력하세요:`);
+  
+  if (inputPw === p.password) {
+    if (window.confirm('정말로 삭제하시겠습니까?')) {
+      const { error } = await supabase.from('prayers').delete().eq('name', p.name);
+      if (!error) { fetchPrayers(); alert('삭제되었습니다.'); }
     }
-  };
+  } else if (inputPw !== null) {
+    alert('비밀번호가 틀렸습니다!');
+  }
+};
 
   // 수정하기 클릭 시 (기존 카드 클릭)
   const handleEditClick = (e, p) => {
-    if (e) e.stopPropagation(); 
+  if (e) e.stopPropagation(); 
+  const inputPw = prompt(`${p.name}님, 비밀번호를 입력하세요:`);
+  
+  if (inputPw === p.password) {
+    setIsEditing(true); 
+    setName(p.name);   
+    setPassword(p.password);
     
-    const inputPw = prompt(`${p.name}님, 비밀번호를 입력하세요:`);
-    if (inputPw === null) return; 
-
-    if (inputPw === p.password) {
-      setEditingId(p.id); 
-      setName(p.name);
-      setPassword(p.password);
-      
-      let existingTexts = [];
-      for (let i = 1; i <= 10; i++) {
-        if (p[`text${i}`]) existingTexts.push(p[`text${i}`]);
-      }
-      setInputs(existingTexts.length > 0 ? existingTexts : ['']);
-      setShowModal(true);
-    } else {
-      alert('비밀번호가 틀렸습니다!');
+    let existingTexts = [];
+    for (let i = 1; i <= 10; i++) {
+      if (p[`text${i}`]) existingTexts.push(p[`text${i}`]);
     }
-  };
+    setInputs(existingTexts.length > 0 ? existingTexts : ['']);
+    setShowModal(true);
+  } else if (inputPw !== null) {
+    alert('비밀번호가 틀렸습니다!');
+  }
+};
 
   const addInputLine = () => {
     if (inputs.length < 10) setInputs([...inputs, '']);
@@ -122,13 +115,16 @@ function App() {
     }
 
     let error;
-    if (editingId) {
-      const result = await supabase.from('prayers').update(prayerData).eq('id', editingId);
-      error = result.error;
-    } else {
-      const result = await supabase.from('prayers').insert([prayerData]);
-      error = result.error;
-    }
+    if (isEditing) {
+    const result = await supabase
+      .from('prayers')
+      .update(prayerData)
+      .eq('name', name); 
+    error = result.error;
+  } else {
+    const result = await supabase.from('prayers').insert([prayerData]);
+    error = result.error;
+  }
 
     if (!error) {
       closeModal();

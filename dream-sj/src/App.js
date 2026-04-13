@@ -9,7 +9,7 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   
   // 상태 관리 (수정 시에도 사용)
-  const [editingId, setEditingId] = useState(null); // 수정 중인 row의 ID (null이면 새 글)
+  const [isEditing, setIsEditing] = useState(false);
   const [inputs, setInputs] = useState(['']); 
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
